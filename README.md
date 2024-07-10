@@ -23,12 +23,10 @@
 4.Paste the code in worker's code editor and fill following variables:
   * **SECRET_TOKEN**: Random long url safe token to protect unauthorized execution of your Cloudflare worker.
 
-      * Can be manually created by using alphabets, numbers and by not using any special character except `_`.
-      * Using [Python](https://www.python.org/downloads/):
-  
-        ```
-        python -c "import secrets; print(secrets.token_urlsafe(32));"
-        ```
+      * Send `/secret 32` command to [DumpJsonBot](https://t.me/DumpJsonBot) to generate it.
+
+      * Alternatively, it can be manually created by using alphabets, numbers and by not using any special character except `_` and `-`.
+
   * **BOT_TOKEN**: API token of your Telegram bot, can be obtained from [BotFather](https://t.me/BotFather).
 
 5.Click deploy button, copy your worker's URL and set webhook as given [here](#webhook).
@@ -50,15 +48,6 @@ cd ShowJsonBot
 ```
 
 4.Fill [config.js](https://github.com/lawdakacoder/ShowJsonBot/blob/main/src/config.js).
-  * **SECRET_TOKEN**: Random long url safe token to protect unauthorized execution of your Cloudflare worker.
-
-      * Can be manually created by using alphabets, numbers and by not using any special character except `_`.
-      * Using [Python](https://www.python.org/downloads/):
-  
-        ```
-        python -c "import secrets; print(secrets.token_urlsafe(32));"
-        ```
-  * **BOT_TOKEN**: API token of your Telegram bot, can be obtained from [BotFather](https://t.me/BotFather).
 
 5.Setup Wrangler
   * Install wrangler
