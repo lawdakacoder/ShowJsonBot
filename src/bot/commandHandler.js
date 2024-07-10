@@ -1,0 +1,35 @@
+import { sendMessage, sendJsonMessage } from "../telegram/api";
+import { Texts } from "../utils/static";
+
+export async function handleCommand(message) {
+    const { from: user, chat, text } = message;
+    const command = text.split(' ')[0];
+    let response = '';
+
+    switch (command) {
+        case '/start':
+            response = Texts.start
+            .replace('{first_name}', user.first_name);
+
+            const reply_markup = {
+                inline_keyboard: [[{ text: 'Source Code', url: 'https://github.com/lawdakacoder/ShowJsonBot'}]]
+            };
+            
+            await sendMessage(chat.id, response, message.message_id, reply_markup);
+            return true;
+        case '/help':
+            response = Texts.help;
+            await sendMessage(chat.id, response, message.message_id);
+            return true;
+        case '/info':
+            response = JSON.stringify(user, null, 2);
+            await sendJsonMessage(chat.id, response, message.message_id);
+            return true;
+        case '/chat':
+            response = JSON.stringify(chat, null, 2);
+            await sendJsonMessage(chat.id, response, message.message_id);
+            return true;
+        default:
+            return false;
+    }
+}
