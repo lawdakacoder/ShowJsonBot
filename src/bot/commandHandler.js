@@ -1,8 +1,14 @@
 import { sendMessage, sendJsonMessage } from "../telegram/api";
 import { Texts } from "../utils/static";
 import { isPositiveIntegerString, generateUrlSafeToken } from "../utils/misc";
+import { handleDeepLink } from "./deeplinkHandler";
 
-async function startCommand(message) {
+async function startCommand(message, args) {
+    if (args.length !== 0) {
+        await handleDeepLink(message, args[0]);
+        return true;
+    }
+
     const { from: user, chat} = message;
     const response = Texts.start
     .replace('{first_name}', user.first_name);
@@ -14,15 +20,15 @@ async function startCommand(message) {
     return true;
 }
 
-async function helpCommand(message) {
-    const { from: user, chat} = message;
+export async function helpCommand(message) {
+    const { chat } = message;
     const response = Texts.help;
 
     await sendMessage(chat.id, response, message.message_id);
     return true;
 }
 
-async function infoCommand(message) {
+export async function infoCommand(message) {
     const { from: user, chat} = message;
     const response = JSON.stringify(user, null, 2);
 
@@ -30,7 +36,7 @@ async function infoCommand(message) {
     return true;
 }
 
-async function chatCommand(message) {
+export async function chatCommand(message) {
     const { chat } = message;
     const response = JSON.stringify(chat, null, 2);
 
@@ -38,7 +44,7 @@ async function chatCommand(message) {
     return true;
 }
 
-async function secretCommand(message, args) {
+export async function secretCommand(message, args) {
     const { chat } = message;
     let response = '';
     let reply_markup = {};
@@ -69,15 +75,15 @@ export async function handleCommand(message) {
 
     switch (command) {
         case '/start':
-            return await startCommand(message)
+            return await startCommand(message, args);
         case '/help':
-            return await helpCommand(message)
+            return await helpCommand(message);
         case '/info':
-            return await infoCommand(message)
+            return await infoCommand(message);
         case '/chat':
-            return await chatCommand(message)
+            return await chatCommand(message);
         case '/secret':
-            return await secretCommand(message, args)
+            return await secretCommand(message, args);
         default:
             return false;
     }
