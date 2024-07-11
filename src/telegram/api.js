@@ -4,7 +4,6 @@ import { generateRandomFileName } from "../utils/misc";
 /**
 Send request to Bot API.
 **/
-
 async function sendRequest(
     method,
     payload,
@@ -17,15 +16,12 @@ async function sendRequest(
         body: isFormData ? payload : JSON.stringify(payload)
     };
 
-    console.log(options.body)
-
     return fetch(url, options);
 }
 
 /**
 Send message to Telegram.
 **/
-
 export async function sendMessage(
     chatId,
     text,
@@ -43,16 +39,38 @@ export async function sendMessage(
     }
 
     if (replyMarkup) {
-        payload.reply_markup = replyMarkup
+        payload.reply_markup = replyMarkup;
     }
 
     await sendRequest('sendMessage', payload);
 }
 
 /**
+Edit Telegram message.
+**/
+export async function editMessageText(
+    chatId,
+    messageId,
+    text,
+    replyMarkup = null
+) {
+    const payload = {
+        chat_id: chatId,
+        message_id: messageId,
+        text: text,
+        parse_mode: 'HTML'
+    };
+
+    if (replyMarkup) {
+        payload.reply_markup = replyMarkup;
+    }
+
+    await sendRequest('editMessageText', payload);
+}
+
+/**
 Send document to Telegram.
 **/
-
 export async function sendDocument(
     chatId,
     content,
@@ -73,7 +91,6 @@ export async function sendDocument(
 /**
 Answer callback query.
 **/
-
 export async function answerCallbackQuery(
     id,
     text,
@@ -91,7 +108,6 @@ export async function answerCallbackQuery(
 /**
 Special function to make sending JSON easy.
 **/
-
 export async function sendJsonMessage(
     chatId,
     text,
