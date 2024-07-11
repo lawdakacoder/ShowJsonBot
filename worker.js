@@ -121,8 +121,34 @@
     expectedValueTooBig: "Expected value is too big."
   };
 
+  // src/bot/deeplinkHandler.js
+  async function handleDeepLink(message, arg) {
+    const [deeplink, ...args] = arg.split("_");
+    switch (deeplink) {
+      case "info":
+        await infoCommand(message);
+        break;
+      case "chat":
+        await chatCommand(message);
+        break;
+      case "secret":
+        await secretCommand(message, args);
+        break;
+      case "help":
+        await helpCommand(message);
+        break;
+      default:
+        const text = Texts.notValidArgument;
+        await sendMessage(message.chat.id, text, message.message_id);
+    }
+  }
+
   // src/bot/commandHandler.js
-  async function startCommand(message) {
+  async function startCommand(message, args) {
+    if (args.length !== 0) {
+      await handleDeepLink(message, args[0]);
+      return true;
+    }
     const { from: user, chat } = message;
     const response = Texts.start.replace("{first_name}", user.first_name);
     const reply_markup = {
@@ -132,7 +158,7 @@
     return true;
   }
   async function helpCommand(message) {
-    const { from: user, chat } = message;
+    const { chat } = message;
     const response = Texts.help;
     await sendMessage(chat.id, response, message.message_id);
     return true;
@@ -174,7 +200,7 @@
     const [command, ...args] = text.split(" ");
     switch (command) {
       case "/start":
-        return await startCommand(message);
+        return await startCommand(message, args);
       case "/help":
         return await helpCommand(message);
       case "/info":
@@ -198,12 +224,12 @@
   }
   async function refreshSecretToken(query) {
     const { id, message } = query;
+    const response = "Token refreshed.";
     const secret_token = generateUrlSafeToken(message.text.length);
     const text = `<code>${secret_token}</code>`;
     const reply_markup = {
       inline_keyboard: [[{ text: "Refresh Token", callback_data: "refresh_secret_token" }]]
     };
-    const response = "Token refreshed.";
     await editMessageText(message.chat.id, message.message_id, text, reply_markup);
     await answerCallbackQuery(id, response);
   }
