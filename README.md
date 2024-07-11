@@ -8,6 +8,7 @@
 * [**🕹 Direct Deployment**](#direct-deployment)
 * [**🛠️ Deploy from Source**](#deploy-from-source)
 * [**🪝 Webhook**](#webhook)
+* [**🤖 Commands**](#commands)
 * [**❤️ Credits**](#credits)
 
 <a name="direct-deployment"></a>
@@ -18,7 +19,7 @@
 
 2.Navigate to "Workers & Pages" > "Create" and create new worker.
 
-3.Copy the content of [worker.js](https://github.com/lawdakacoder/ShowJsonBot/blob/main/worker.js).
+3.Copy the content of [worker.js](https://github.com/lawdakacoder/ShowJsonBot/blob/main/worker.js) file.
 
 4.Paste the code in worker's code editor and fill following variables:
   * **SECRET_TOKEN**: Random long url safe token to protect unauthorized execution of your Cloudflare worker.
@@ -35,7 +36,7 @@
 
 ## **🛠️ Deploy from Source**
 
-1.Install [Node.JS](https://nodejs.org/en/download/package-manager) and [NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm).
+1.Install [Git](https://git-scm.com/downloads), [Node.JS](https://nodejs.org/en/download/package-manager) and [NPM](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm).
 
 2.Clone repository:
 ```
@@ -47,7 +48,7 @@ git clone https://github.com/lawdakacoder/ShowJsonBot.git
 cd ShowJsonBot
 ```
 
-4.Fill [config.js](https://github.com/lawdakacoder/ShowJsonBot/blob/main/src/config.js).
+4.Fill [config.js](https://github.com/lawdakacoder/ShowJsonBot/blob/main/src/config.js) file.
 
 5.Setup Wrangler
   * Install wrangler
@@ -83,6 +84,19 @@ https://api.telegram.org/botBOT_TOKEN/setWebhook?url=WORKER_URL&allowed_updates=
 Filled wrong info or need to update info? delete webhook and then you can set it again!
 ```
 https://api.telegram.org/botBOT_TOKEN/deleteWebhook
+```
+
+<a name="commands"></a>
+
+## **🤖 Commands**
+List of commands that you can set in [BotFather](https://t.me/BotFather).
+
+```
+start - Ping the bot.
+info - Show user info.
+chat - Show chat info.
+secret - Generate url safe token.
+help - Show help text.
 ```
 
 <a name="credits"></a>
